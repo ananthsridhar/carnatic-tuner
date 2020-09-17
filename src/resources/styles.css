@@ -1,0 +1,18 @@
+.mic-on {
+    background-color: 'blue';
+    animation-name: fadeMic;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeMic {
+    from {background-color: #c10f44;}
+    to {background-color: #6f0f2c;}
+  }
+
+
+  .p-circle{
+    transition: all 0.1s ease-in;
+  }
