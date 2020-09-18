@@ -54,6 +54,15 @@ export default function NoteDisplayComponent(props) {
           stroke="#F0CE01"
           strokeWidth="1"
         />
+        {oct<0 && <foreignObject
+          x="40%"
+          y="35%"
+          style={{ fontSize: "0.2em" }}
+          height="8"
+          width="20"
+        >
+          <OctaveDot num={oct*-1} />
+        </foreignObject>}
         <text
           textAnchor="middle"
           x="50%"
@@ -64,7 +73,7 @@ export default function NoteDisplayComponent(props) {
         >
           {props.note && props.note.note}
         </text>
-        <foreignObject
+        {oct>0 && <foreignObject
           x="40%"
           y="60%"
           style={{ fontSize: "0.2em" }}
@@ -72,7 +81,7 @@ export default function NoteDisplayComponent(props) {
           width="20"
         >
           <OctaveDot num={oct} />
-        </foreignObject>
+        </foreignObject>}
       </SVGComponent>
     </div>
   );
