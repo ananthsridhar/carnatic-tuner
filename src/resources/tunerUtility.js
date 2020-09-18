@@ -1,19 +1,6 @@
 import { notes } from "./notes";
+import {CARNATIC_NOTES} from "./Constants";
 
-const carnaticNotes = [
-  "S",
-  "R1",
-  "R2",
-  "G2",
-  "G3",
-  "M1",
-  "M2",
-  "P",
-  "D1",
-  "D2",
-  "N2",
-  "N3",
-];
 
 // Get Hash of Carnatic-Western Note mapping. Default base frequency of A4 - 440Hz
 export const getCarnaticNotes = function (baseWesternNote, baseFreq = 440) {
@@ -29,7 +16,7 @@ export const getCarnaticNotes = function (baseWesternNote, baseFreq = 440) {
     // if (Math.abs(oct) < 3)
     // console.log((offset-i) % carnaticNotes.length);
       carnaticMap[wNote.note] = {
-        note: carnaticNotes[Math.abs(offset-i) % carnaticNotes.length],
+        note: CARNATIC_NOTES[Math.abs(offset-i) % CARNATIC_NOTES.length],
         octave: oct - baseOctave,
       };
   });

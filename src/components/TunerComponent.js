@@ -11,6 +11,8 @@ import {
   getCarnaticNotes,
   getAudioInputs,
 } from "../resources/tunerUtility";
+import Settings from "./SettingsComponent";
+import { WESTERN_NOTES } from "../resources/Constants";
 
 const styles = {
   mainContainer: {
@@ -41,7 +43,7 @@ const DETECTION_RATE = 100; //ms
 export default function TunerComponent() {
   let audioContext = useRef(null);
   let interval = useRef(null);
-  let baseNote = "E4";
+  let [baseNote, setBaseNote] = useState("E4");
   let carnaticNoteMap = useRef(getCarnaticNotes(baseNote));
   let [isMicrophoneInUse, setMicInUse] = useState(false);
   let [micStream, setMicStream] = useState(null);
@@ -97,12 +99,15 @@ export default function TunerComponent() {
     }
   };
 
-  function handleChange(e) {
-    changeAudioInput(e.target.value);
+  function handleInputChange(input) {
+    changeAudioInput(input);
+  }
+
+  function onBaseChordChange(chord) {
+    setBaseNote(chord);
   }
 
   function toggleMicrophone() {
-    // this.outText = "Mic On";
     if (!isMicrophoneInUse) {
       if (audioContext) audioContext.current.resume();
       if (isGetUserMediaSupported()) {
@@ -122,7 +127,6 @@ export default function TunerComponent() {
           .then(streamReceived)
           .catch(console.log);
         // this.updatePitch(this.baseFreq);
-        // });
       } else {
         console.log(
           "It looks like this browser does not support getUserMedia. " +
@@ -148,7 +152,6 @@ export default function TunerComponent() {
   }
 
   function detectPitch(aaNode = null) {
-    // console.log(currentNote);
     let analyserNode = analyserAudioNode || aaNode;
     let buffer = new Uint8Array(analyserNode.fftSize);
     analyserNode.getByteTimeDomainData(buffer);
@@ -183,43 +186,38 @@ export default function TunerComponent() {
 
     setStreamActive(false);
     setSourceAudioNode(null);
-    // window.cancelAnimationFrame(this.frameId);
-    // this.updatePitch("--");
-    // this.updateNote("--");
-    // this.updateCents(-50);
-    // $("#microphoneOptions").toggle(false);
     setAnalyserAudioNode(null);
     setMicInUse(false);
   }
 
   return (
     <div style={styles.mainContainer}>
-      <div style={Object.assign({},styles.flexContainer,{ flex: 3, width: "100%" })}>
-        {/* <p style={styles.chordChar}>{currentNote}</p>
-        <p style={styles.centChar}>{cents}</p> */}
+      <div
+        style={Object.assign({}, styles.flexContainer, {
+          flex: 3,
+          width: "100%",
+        })}
+      >
         <NoteDisplayComponent note={currentNote} cents={cents} />
       </div>
-      <div style={Object.assign({},styles.flexContainer,{ flex: 1 })}>
+      <div style={Object.assign({}, styles.flexContainer, { flex: 1 })}>
         <MicButtonComponent
           isMic={isMicrophoneInUse}
           onClick={() => toggleMicrophone()}
         />
       </div>
-      <div style={Object.assign({},styles.flexContainer,{ flex: 1 })}>
-        <select
-          style={{ width: "80%" }}
-          value={selectedAudioInput || " "}
-          onChange={handleChange}
-        >
-          {audioInputList &&
-            audioInputList.map((i, index) => {
-              return (
-                <option key={index} value={i.deviceId}>
-                  {i.label}
-                </option>
-              );
-            })}
-        </select>
+      <div
+        style={Object.assign({}, styles.flexContainer, {
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        })}
+      >
+        <Settings
+          inputList={audioInputList}
+          onInputChange={handleInputChange}
+          onBaseChordChange={onBaseChordChange}
+        />
       </div>
     </div>
   );
