@@ -1,9 +1,9 @@
 import React from "react";
 import "../resources/styles.css";
-import {BsDot} from "react-icons/bs";
+import { BsDot } from "react-icons/bs";
 
 const RADIUS_FACTOR = 0.2;
-const BASE_RADIUS = 20;
+const BASE_RADIUS = 30;
 const CENT_THRESHOLDS = [
   {
     diff: 5,
@@ -29,10 +29,14 @@ export default function NoteDisplayComponent(props) {
           CENT_THRESHOLDS[0]
         )
       : CENT_THRESHOLDS[0];
-      
+
   return (
-    <div style={{flex: '1'}}>
-      <SVGComponent viewBox="0 0 100 80" preserveAspectRatio="xMaxYMax meet">
+    <div style={{ width: "50vh", height: "50vh" }}>
+      <SVGComponent
+        viewBox="0 0 100 100"
+        preserveAspectRatio="xMaxYMax meet"
+        style={{ overflow: "visible" }}
+      >
         <Circle
           cx="50%"
           cy="50%"
@@ -85,5 +89,5 @@ let Circle = (props) => {
 let OctaveDot = (props) => {
   let el = new Array(props.num).fill(0);
   console.log(el);
-  return <div>{!!props.num && el.map((w) =><BsDot/>)}</div>;
+  return <div>{!!props.num && el.map((w) => <BsDot />)}</div>;
 };

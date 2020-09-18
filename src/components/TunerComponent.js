@@ -11,6 +11,7 @@ import {
   getCarnaticNotes,
   getAudioInputs,
 } from "../resources/tunerUtility";
+import { MdSettings } from "react-icons/md";
 import Settings from "./SettingsComponent";
 import { WESTERN_NOTES } from "../resources/Constants";
 
@@ -33,8 +34,10 @@ const styles = {
   },
   flexContainer: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
+    height: "15vh",
+    flexFlow: "row wrap",
+    justifyContent: "space-evenly",
   },
 };
 const BASE_FREQ = 440;
@@ -54,6 +57,7 @@ export default function TunerComponent() {
   let [cents, setCents] = useState(null);
   let [audioInputList, setAudioInputList] = useState([]);
   let [selectedAudioInput, setSelectedAudioInput] = useState(null);
+  let [settings,setSettings] = useState(false);
 
   useEffect(initTuner, []);
 
@@ -200,16 +204,17 @@ export default function TunerComponent() {
       >
         <NoteDisplayComponent note={currentNote} cents={cents} />
       </div>
-      <div style={Object.assign({}, styles.flexContainer, { flex: 1 })}>
+      <div style={Object.assign({}, styles.flexContainer)}>
         <MicButtonComponent
           isMic={isMicrophoneInUse}
           onClick={() => toggleMicrophone()}
         />
       </div>
-      <div
+      <SettingsButton toggleSetting={setSettings.bind(this,!settings)} />
+      {settings && (<div
         style={Object.assign({}, styles.flexContainer, {
-          flex: 1,
-          flexDirection: "column",
+          height: '20vh',
+          flexFlow: "row wrap",
           justifyContent: "space-evenly",
         })}
       >
@@ -218,7 +223,19 @@ export default function TunerComponent() {
           onInputChange={handleInputChange}
           onBaseChordChange={onBaseChordChange}
         />
-      </div>
+      </div>)}
     </div>
   );
+}
+
+function SettingsButton (props) {
+
+  return (
+    <div style={Object.assign({}, styles.flexContainer,{
+      height:'10vh',
+      fontSize: '2em'
+    })}>
+      <MdSettings onClick={props.toggleSetting}/>
+    </div>
+  )
 }
