@@ -13,7 +13,6 @@ import {
 } from "../resources/tunerUtility";
 import { MdSettings } from "react-icons/md";
 import Settings from "./SettingsComponent";
-import { WESTERN_NOTES } from "../resources/Constants";
 
 const styles = {
   mainContainer: {

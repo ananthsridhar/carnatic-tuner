@@ -1,12 +1,14 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import "./App.css";
-
-import TunerComponent from './components/TunerComponent';
+const renderLoader = () => <p>Loading</p>;
+const TunerComponent = lazy(() => import("./components/TunerComponent"));
 
 function App() {
   return (
     <div className="App">
-        <TunerComponent/>
+      <Suspense fallback={renderLoader()}>
+        <TunerComponent />
+      </Suspense>
     </div>
   );
 }
