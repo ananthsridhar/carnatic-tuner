@@ -16,7 +16,7 @@ import Settings from "./SettingsComponent";
 
 const styles = {
   mainContainer: {
-    backgroundColor: "#282c34",
+    backgroundColor: "#1D1E2C",
     color: "white",
     height: "100vh",
     display: "flex",
@@ -38,7 +38,13 @@ const styles = {
     flexFlow: "row wrap",
     justifyContent: "space-evenly",
   },
+  settingsButton : {
+    height:'10vh',
+    fontSize: '2em',
+    color:'#59656F'
+  }
 };
+
 const BASE_FREQ = 440;
 const notesArray = notes[BASE_FREQ.toString()];
 const DETECTION_RATE = 100; //ms
@@ -230,10 +236,7 @@ export default function TunerComponent() {
 function SettingsButton (props) {
 
   return (
-    <div style={Object.assign({}, styles.flexContainer,{
-      height:'10vh',
-      fontSize: '2em'
-    })}>
+    <div style={Object.assign({}, styles.flexContainer,styles.settingsButton)}>
       <MdSettings onClick={props.toggleSetting}/>
     </div>
   )

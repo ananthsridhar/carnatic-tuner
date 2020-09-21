@@ -7,11 +7,11 @@ const BASE_RADIUS = 30;
 const CENT_THRESHOLDS = [
   {
     diff: 5,
-    color: "green",
+    color: "#04C869",
   },
   {
     diff: 10,
-    color: "orange",
+    color: "#FF9B85",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function NoteDisplayComponent(props) {
           cy="50%"
           r={BASE_RADIUS}
           fill="none"
-          stroke="#F0CE01"
+          stroke="#B0B8BF"
           strokeWidth="1"
         />
         {oct<0 && <foreignObject
@@ -68,7 +68,7 @@ export default function NoteDisplayComponent(props) {
           x="50%"
           y="55%"
           strokeWidth="1"
-          fill="white"
+          fill="#E2E4F6"
           style={{ fontSize: "1em" }}
         >
           {props.note && props.note.note}

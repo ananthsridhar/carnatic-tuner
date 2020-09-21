@@ -15,7 +15,7 @@ const micStyles = {
     backgroundColor: "",
   },
   micOff: {
-    backgroundColor: "green",
+    backgroundColor: "#04C869",
   },
 };
 
