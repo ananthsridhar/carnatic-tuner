@@ -1,4 +1,6 @@
 # carnatic-tuner
+[![deploy-firebase Actions Status](https://github.com/ananthsridhar/carnatic-tuner/workflows/deploy-firebase/badge.svg)](https://github.com/ananthsridhar/carnatic-tuner/actions)
+
 Tune your Carnatic instruments to the classic Carnatic swaras instead of constantly calculating the Western-Carnatic co-relation!
 
 When I started learning the Veena recently, one of the biggest problems I faced was tuning my Veena strings to the right pitch. This involved taking my teacher's assistance, who manually tuned it by ear to perfection, either in person or through Skype. 
