@@ -54,7 +54,7 @@ export default function TunerComponent() {
   let [baseNote, setBaseNote] = useState("E4");
   let carnaticNoteMap = useRef(getCarnaticNotes(baseNote));
   let [isMicrophoneInUse, setMicInUse] = useState(false);
-  let [micStream, setMicStream] = useState(null);
+  // let [micStream, setMicStream] = useState(null);
   let [sourceAudioNode, setSourceAudioNode] = useState(null);
   let [analyserAudioNode, setAnalyserAudioNode] = useState(null);
   let [streamActive, setStreamActive] = useState(false);
@@ -73,7 +73,30 @@ export default function TunerComponent() {
       interval.current = setInterval(() => detectPitch(), DETECTION_RATE);
     }
     return () => clearInterval(interval.current);
-  }, [streamActive]);
+
+    function detectPitch(aaNode = null) {
+      let analyserNode = analyserAudioNode || aaNode;
+      let buffer = new Uint8Array(analyserNode.fftSize);
+      analyserNode.getByteTimeDomainData(buffer);
+      let fundalmentalFreq = findFundamentalFreq(
+        buffer,
+        audioContext.current.sampleRate
+      );
+      if (fundalmentalFreq !== -1) {
+        let note = findClosestNote(fundalmentalFreq, notesArray);
+        let cents = findCentsOffPitch(fundalmentalFreq, note.frequency);
+  
+        console.log(note);
+        if (carnaticNoteMap.current[note.note]) {
+          setCurrentNote(carnaticNoteMap.current[note.note]);
+          setCents(cents);
+        }
+      } else {
+        // setCurrentNote("-");
+        // setCents("-");
+      }
+    }
+  }, [streamActive,analyserAudioNode]);
 
   function initTuner() {
     if (isAudioContextSupported()) {
@@ -149,7 +172,7 @@ export default function TunerComponent() {
 
   function streamReceived(stream) {
     console.log(stream);
-    setMicStream(stream);
+    // setMicStream(stream);
     let aaNode = audioContext.current.createAnalyser();
     aaNode.fftSize = 2048;
     setAnalyserAudioNode(aaNode);
@@ -158,30 +181,7 @@ export default function TunerComponent() {
     setSourceAudioNode(saNode);
     setStreamActive(true);
     setMicInUse(true);
-  }
-
-  function detectPitch(aaNode = null) {
-    let analyserNode = analyserAudioNode || aaNode;
-    let buffer = new Uint8Array(analyserNode.fftSize);
-    analyserNode.getByteTimeDomainData(buffer);
-    let fundalmentalFreq = findFundamentalFreq(
-      buffer,
-      audioContext.current.sampleRate
-    );
-    if (fundalmentalFreq !== -1) {
-      let note = findClosestNote(fundalmentalFreq, notesArray);
-      let cents = findCentsOffPitch(fundalmentalFreq, note.frequency);
-
-      console.log(note);
-      if (carnaticNoteMap.current[note.note]) {
-        setCurrentNote(carnaticNoteMap.current[note.note]);
-        setCents(cents);
-      }
-    } else {
-      // setCurrentNote("-");
-      // setCents("-");
-    }
-  }
+  }  
 
   function turnOffMicrophone() {
     if (

@@ -7,12 +7,10 @@ export const getCarnaticNotes = function (baseWesternNote, baseFreq = 440) {
   let carnaticMap = [];
   let westernNoteMap = notes[baseFreq];
   let baseOctave = baseWesternNote.slice(-1);
-  let baseNote = baseWesternNote.slice(0, -1);
   let offset = westernNoteMap.findIndex(n=>n.note===baseWesternNote);
   // console.log({baseWesternNote,offset});
   westernNoteMap.forEach((wNote, i) => {
     let oct = wNote.note.slice(-1);
-    let note = wNote.note.slice(0, -1);
     // if (Math.abs(oct) < 3)
     // console.log((offset-i) % carnaticNotes.length);
       carnaticMap[wNote.note] = {
