@@ -8,19 +8,6 @@ export const getCarnaticNotes = function (baseWesternNote, baseFreq = 440) {
   let westernNoteMap = notes[baseFreq];
   let baseOctave = baseWesternNote.slice(-1);
   let baseChord = baseWesternNote.slice(0,baseWesternNote.length-1);
-  // let offset = westernNoteMap.findIndex(n=>n.note===baseWesternNote);
-  // console.log({baseWesternNote,offset});
-  // westernNoteMap.forEach((wNote, i) => {
-  //   let oct = wNote.note.slice(-1);
-  //   // if (Math.abs(oct) < 3)
-  //   // console.log((offset-i) % carnaticNotes.length);
-      
-  //     carnaticMap[wNote.note] = {
-  //       note: CARNATIC_NOTES[Math.abs(offset-i) % CARNATIC_NOTES.length],
-  //       octave: oct - baseOctave,
-  //     };
-  //     console.log({i,wNote,c:carnaticMap[wNote.note]})
-  // });
   let offset = WESTERN_NOTES.findIndex(n=>n===baseChord);
   const OCTAVE_COUNT = 9;
   for(let i=0;i<OCTAVE_COUNT;i++) {
