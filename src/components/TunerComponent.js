@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { MdSettings } from "react-icons/md";
+
 import MicButtonComponent from "./MicButtonComponent";
 import NoteDisplayComponent from "./NoteDisplayComponent";
 import { notes } from "../resources/notes";
@@ -11,8 +13,8 @@ import {
   getCarnaticNotes,
   getAudioInputs,
 } from "../resources/tunerUtility";
-import { MdSettings } from "react-icons/md";
 import Settings from "./SettingsComponent";
+import { TransitionComponent } from "./TransitionComponent";
 
 const styles = {
   mainContainer: {
@@ -38,10 +40,10 @@ const styles = {
     flexFlow: "row wrap",
     justifyContent: "space-evenly",
   },
-  settingsButton : {
-    height:'10vh',
+  settingsButton: {
+    height: '10vh',
     fontSize: '2em',
-    color:'#59656F'
+    color: '#59656F'
   }
 };
 
@@ -62,7 +64,7 @@ export default function TunerComponent() {
   let [cents, setCents] = useState(null);
   let [audioInputList, setAudioInputList] = useState([]);
   let [selectedAudioInput, setSelectedAudioInput] = useState(null);
-  let [settings,setSettings] = useState(false);
+  let [settings, setSettings] = useState(false);
 
   useEffect(initTuner, []);
 
@@ -85,7 +87,7 @@ export default function TunerComponent() {
       if (fundalmentalFreq !== -1) {
         let note = findClosestNote(fundalmentalFreq, notesArray);
         let cents = findCentsOffPitch(fundalmentalFreq, note.frequency);
-  
+
         console.log(note);
         if (carnaticNoteMap.current[note.note]) {
           setCurrentNote(carnaticNoteMap.current[note.note]);
@@ -96,7 +98,7 @@ export default function TunerComponent() {
         // setCents("-");
       }
     }
-  }, [streamActive,analyserAudioNode]);
+  }, [streamActive, analyserAudioNode]);
 
   function initTuner() {
     if (isAudioContextSupported()) {
@@ -146,10 +148,10 @@ export default function TunerComponent() {
           navigator.mediaDevices && navigator.mediaDevices.getUserMedia
             ? navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices)
             : function (constraints) {
-                return new Promise(function (resolve, reject) {
-                  navigator.getUserMedia(constraints, resolve, reject);
-                });
-              };
+              return new Promise(function (resolve, reject) {
+                navigator.getUserMedia(constraints, resolve, reject);
+              });
+            };
         getUserMedia({
           audio: {
             deviceId: selectedAudioInput,
@@ -161,7 +163,7 @@ export default function TunerComponent() {
       } else {
         console.log(
           "It looks like this browser does not support getUserMedia. " +
-            'Check <a href="http://caniuse.com/#feat=stream">http://caniuse.com/#feat=stream</a> for more info.'
+          'Check <a href="http://caniuse.com/#feat=stream">http://caniuse.com/#feat=stream</a> for more info.'
         );
       }
     } else {
@@ -180,7 +182,7 @@ export default function TunerComponent() {
     setSourceAudioNode(saNode);
     setStreamActive(true);
     setMicInUse(true);
-  }  
+  }
 
   function turnOffMicrophone() {
     if (
@@ -214,30 +216,25 @@ export default function TunerComponent() {
           onClick={() => toggleMicrophone()}
         />
       </div>
-      <SettingsButton toggleSetting={setSettings.bind(this,!settings)} />
-      {settings && (<div
-        style={Object.assign({}, styles.flexContainer, {
-          height: '20vh',
-          flexFlow: "row wrap",
-          justifyContent: "space-evenly",
-        })}
-        className="settings-section"
-      >
+      <SettingsButton toggleSetting={setSettings.bind(this, !settings)} />
+      <TransitionComponent visible={settings} styles={styles.flexContainer}>
         <Settings
           inputList={audioInputList}
           onInputChange={handleInputChange}
           onBaseChordChange={onBaseChordChange}
         />
-      </div>)}
+      </TransitionComponent>
+
     </div>
   );
 }
 
-function SettingsButton (props) {
+function SettingsButton(props) {
 
   return (
-    <div style={Object.assign({}, styles.flexContainer,styles.settingsButton)}>
-      <MdSettings onClick={props.toggleSetting}/>
+    <div style={Object.assign({}, styles.flexContainer, styles.settingsButton)}>
+      <MdSettings onClick={props.toggleSetting} />
     </div>
   )
 }
+
