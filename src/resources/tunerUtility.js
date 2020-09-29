@@ -88,7 +88,7 @@ export const findFundamentalFreq = function (buffer, sampleRate) {
     }
   }
   // this.setText(buffer[0] - 128);
-  console.log(bestR);
+  // console.log(bestR);
   if (bestR > 0.0025) {
     // The period (in frames) of the fundamental frequency is 'bestK'. Getting the frequency from there is trivial.
     var fundamentalFreq = sampleRate / bestK;
@@ -112,9 +112,8 @@ export const findClosestNote = function (freq, notes) {
       high = pivot;
     }
   }
-  // console.log(freq);
   if (
-    Math.abs(notes[high].frequency - freq) <=
+    notes[high] && Math.abs(notes[high].frequency - freq) <=
     Math.abs(notes[low].frequency - freq)
   ) {
     // notes[high] is closer to the frequency we found

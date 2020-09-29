@@ -109,7 +109,6 @@ export default function TunerComponent() {
     } else {
       this.reportError("AudioContext is not supported in this browser");
     }
-    console.log(getCarnaticNotes(baseNote, BASE_FREQ));
   }
 
   // let getAudioInputs = function () {
@@ -222,6 +221,7 @@ export default function TunerComponent() {
           flexFlow: "row wrap",
           justifyContent: "space-evenly",
         })}
+        className="settings-section"
       >
         <Settings
           inputList={audioInputList}
