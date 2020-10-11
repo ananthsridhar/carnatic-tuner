@@ -218,13 +218,12 @@ export default function TunerComponent() {
       </div>
       <SettingsButton toggleSetting={setSettings.bind(this, !settings)} />
       <TransitionComponent visible={settings} styles={styles.flexContainer}>
-        <Settings
+      {settings && <Settings
           inputList={audioInputList}
           onInputChange={handleInputChange}
           onBaseChordChange={onBaseChordChange}
-        />
+        />}
       </TransitionComponent>
-
     </div>
   );
 }
